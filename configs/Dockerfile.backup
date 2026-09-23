@@ -1,0 +1,27 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# ---- Outils de base + cron ----
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget gnupg lsb-release ca-certificates curl cron \
+    && rm -rf /var/lib/apt/lists/*
+
+# ---- PostgreSQL Client 16 (dépôt PGDG) ----
+RUN wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/postgresql.gpg] http://apt.postgresql.org/pub/repos/apt jammy-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+    apt-get update && apt-get install -y --no-install-recommends postgresql-client-16 && \
+    ln -sf /usr/lib/postgresql/16/bin/pg_dump    /usr/local/bin/pg_dump && \
+    ln -sf /usr/lib/postgresql/16/bin/pg_restore /usr/local/bin/pg_restore && \
+    ln -sf /usr/lib/postgresql/16/bin/psql       /usr/local/bin/psql && \
+    rm -rf /var/lib/apt/lists/*
+
+# ---- MinIO Client (mc) ----
+RUN wget -q https://github.com/minio/mc/releases/download/RELEASE.2025-08-13T08-35-41Z/mc.linux-amd64.RELEASE.2025-08-13T08-35-41Z \
+    -O /usr/local/bin/mc && chmod +x /usr/local/bin/mc
+
+# ---- Script d'init (génère la clé GPG si absente + lance cron) ----
+COPY init-backup.sh /usr/local/bin/init-backup.sh
+RUN chmod +x /usr/local/bin/init-backup.sh
+
+CMD ["/usr/local/bin/init-backup.sh"]

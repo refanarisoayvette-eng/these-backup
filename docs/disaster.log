@@ -1,0 +1,99 @@
+[2026-09-23 21:54:42] 
+[2026-09-23 21:54:42] ===============================================
+[2026-09-23 21:54:42]   SIMULATION DE SINISTRE - Scénario A
+[2026-09-23 21:54:42] ===============================================
+[2026-09-23 21:54:42] 
+[2026-09-23 21:54:42] → ÉTAPE 1 : État initial de la production
+[2026-09-23 21:54:42]    Clients en base : 5000
+[2026-09-23 21:54:42] 
+[2026-09-23 21:54:42] → ÉTAPE 2 : Création d'un backup frais (état de référence)
+[2026-09-23 21:54:45]    Backup de référence : gestion_commerciale_20260923_215442.dump.gpg
+[2026-09-23 21:54:45] 
+[2026-09-23 21:54:45] → ÉTAPE 3 : Déclenchement du sinistre (scénario A)
+[2026-09-23 21:54:45]    💥 Suppression accidentelle de la table clients...
+[2026-09-23 21:54:45]    ☠️  Table clients SUPPRIMÉE
+[2026-09-23 21:54:45]    Clients après sinistre : 0
+[2026-09-23 21:54:45] 
+[2026-09-23 21:54:45] → ÉTAPE 4 : Lancement de la procédure de reprise
+[2026-09-23 21:54:45]    ↓ Téléchargement du backup...
+[2026-09-23 21:54:45]    🔓 Déchiffrement...
+[2026-09-23 21:54:45]    🔄 Restauration en production...
+[2026-09-23 21:54:47] 
+[2026-09-23 21:54:47] → ÉTAPE 5 : Vérification de la reprise
+[2026-09-23 21:54:47]    Clients après reprise : 5000
+[2026-09-23 21:54:47] 
+[2026-09-23 21:54:47] ===============================================
+[2026-09-23 21:54:47]   RAPPORT DE REPRISE - Scénario A
+[2026-09-23 21:54:47] ===============================================
+[2026-09-23 21:54:47]   RPO (données perdues) : 0 enregistrements
+[2026-09-23 21:54:47]   RTO (temps de reprise) : 2 secondes
+[2026-09-23 21:54:47]   État avant  : 5000 clients
+[2026-09-23 21:54:47]   État après  : 5000 clients
+[2026-09-23 21:54:47]   ✅ REPRISE RÉUSSIE - Aucune perte
+[2026-09-23 21:54:47] ===============================================
+[2026-09-23 21:55:07] 
+[2026-09-23 21:55:07] ===============================================
+[2026-09-23 21:55:07]   SIMULATION DE SINISTRE - Scénario B
+[2026-09-23 21:55:07] ===============================================
+[2026-09-23 21:55:07] 
+[2026-09-23 21:55:07] → ÉTAPE 1 : État initial de la production
+[2026-09-23 21:55:07]    Clients en base : 5000
+[2026-09-23 21:55:07] 
+[2026-09-23 21:55:07] → ÉTAPE 2 : Création d'un backup frais (état de référence)
+[2026-09-23 21:55:08]    Backup de référence : gestion_commerciale_20260923_215507.dump.gpg
+[2026-09-23 21:55:08] 
+[2026-09-23 21:55:08] → ÉTAPE 3 : Déclenchement du sinistre (scénario B)
+[2026-09-23 21:55:08]    💥 Corruption massive (UPDATE erroné)...
+[2026-09-23 21:55:08]    ☠️  Tous les noms clients CORROMPUS
+[2026-09-23 21:55:08]    Clients après sinistre : 5000
+[2026-09-23 21:55:08] 
+[2026-09-23 21:55:08] → ÉTAPE 4 : Lancement de la procédure de reprise
+[2026-09-23 21:55:08]    ↓ Téléchargement du backup...
+[2026-09-23 21:55:08]    🔓 Déchiffrement...
+[2026-09-23 21:55:09]    🔄 Restauration en production...
+[2026-09-23 21:55:12] 
+[2026-09-23 21:55:12] → ÉTAPE 5 : Vérification de la reprise
+[2026-09-23 21:55:12]    Clients après reprise : 5000
+[2026-09-23 21:55:12] 
+[2026-09-23 21:55:12] ===============================================
+[2026-09-23 21:55:12]   RAPPORT DE REPRISE - Scénario B
+[2026-09-23 21:55:12] ===============================================
+[2026-09-23 21:55:12]   RPO (données perdues) : 0 enregistrements
+[2026-09-23 21:55:12]   RTO (temps de reprise) : 4 secondes
+[2026-09-23 21:55:12]   État avant  : 5000 clients
+[2026-09-23 21:55:12]   État après  : 5000 clients
+[2026-09-23 21:55:12]   ✅ REPRISE RÉUSSIE - Aucune perte
+[2026-09-23 21:55:12] ===============================================
+[2026-09-23 21:55:28] 
+[2026-09-23 21:55:28] ===============================================
+[2026-09-23 21:55:28]   SIMULATION DE SINISTRE - Scénario C
+[2026-09-23 21:55:28] ===============================================
+[2026-09-23 21:55:28] 
+[2026-09-23 21:55:28] → ÉTAPE 1 : État initial de la production
+[2026-09-23 21:55:28]    Clients en base : 5000
+[2026-09-23 21:55:28] 
+[2026-09-23 21:55:28] → ÉTAPE 2 : Création d'un backup frais (état de référence)
+[2026-09-23 21:55:30]    Backup de référence : gestion_commerciale_20260923_215528.dump.gpg
+[2026-09-23 21:55:30] 
+[2026-09-23 21:55:30] → ÉTAPE 3 : Déclenchement du sinistre (scénario C)
+[2026-09-23 21:55:30]    💥 Perte totale : DROP de toutes les tables...
+[2026-09-23 21:55:30]    ☠️  Base de données ENTIÈREMENT PERDUE
+[2026-09-23 21:55:30]    Clients après sinistre : 0
+[2026-09-23 21:55:30] 
+[2026-09-23 21:55:30] → ÉTAPE 4 : Lancement de la procédure de reprise
+[2026-09-23 21:55:30]    ↓ Téléchargement du backup...
+[2026-09-23 21:55:30]    🔓 Déchiffrement...
+[2026-09-23 21:55:30]    🔄 Restauration en production...
+[2026-09-23 21:55:34] 
+[2026-09-23 21:55:34] → ÉTAPE 5 : Vérification de la reprise
+[2026-09-23 21:55:34]    Clients après reprise : 5000
+[2026-09-23 21:55:34] 
+[2026-09-23 21:55:34] ===============================================
+[2026-09-23 21:55:34]   RAPPORT DE REPRISE - Scénario C
+[2026-09-23 21:55:34] ===============================================
+[2026-09-23 21:55:34]   RPO (données perdues) : 0 enregistrements
+[2026-09-23 21:55:34]   RTO (temps de reprise) : 4 secondes
+[2026-09-23 21:55:34]   État avant  : 5000 clients
+[2026-09-23 21:55:34]   État après  : 5000 clients
+[2026-09-23 21:55:34]   ✅ REPRISE RÉUSSIE - Aucune perte
+[2026-09-23 21:55:34] ===============================================

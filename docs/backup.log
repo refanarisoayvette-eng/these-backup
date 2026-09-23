@@ -1,0 +1,139 @@
+[2026-09-21 20:28:31] ===============================================
+[2026-09-21 20:28:31] DÉBUT SAUVEGARDE : gestion_commerciale
+[2026-09-21 20:28:31] ===============================================
+[2026-09-21 20:28:31] → Lancement de pg_dump...
+[2026-09-21 20:28:31] ❌ ÉCHEC de la sauvegarde
+[2026-09-21 20:34:17] ===============================================
+[2026-09-21 20:34:17] DÉBUT SAUVEGARDE : gestion_commerciale
+[2026-09-21 20:34:17] ===============================================
+[2026-09-21 20:34:17] → Lancement de pg_dump...
+[2026-09-21 20:34:18] ✅ Sauvegarde réussie
+[2026-09-21 20:34:18]    Fichier  : /backups/gestion_commerciale_20260921_203417.dump
+[2026-09-21 20:34:18]    Taille   : 892K
+[2026-09-21 20:34:18]    Durée    : 0 secondes
+[2026-09-21 20:34:18] → Calcul du checksum...
+[2026-09-21 20:34:18]    Checksum : 9ab0af562d9d85a968af810c512766e6274dbb944687fbb4e7aba45317a33920
+[2026-09-21 20:34:18] ⚠️  ATTENTION : Fichier < 1 Mo, anormal !
+[2026-09-21 20:51:57] ===============================================
+[2026-09-21 20:51:57] DÉBUT SAUVEGARDE : gestion_commerciale
+[2026-09-21 20:51:57] ===============================================
+[2026-09-21 20:51:57] → 1/4 Lancement de pg_dump...
+[2026-09-21 20:51:58]    ✅ Dump créé : 892K
+[2026-09-21 20:51:58] → 2/4 Calcul du checksum...
+[2026-09-21 20:51:58]    Checksum : c3c407b4226e7db5a75aa00fefa3d68a2da94c4398c62ef8665981dbf403a5dc
+[2026-09-21 20:51:58] → 3/4 Chiffrement GPG...
+[2026-09-21 20:51:58]    ✅ Chiffré : gestion_commerciale_20260921_205157.dump.gpg
+[2026-09-21 20:51:58]    Taille chiffrée : 700K
+[2026-09-21 20:51:58] → 4/4 Vérification de l'intégrité...
+[2026-09-21 20:51:58]    ✅ Fichier GPG valide
+[2026-09-21 20:51:58] ✅ SAUVEGARDE RÉUSSIE
+[2026-09-21 20:51:58]    Fichier : gestion_commerciale_20260921_205157.dump.gpg
+[2026-09-21 20:51:58]    Durée   : 1 secondes
+[2026-09-21 20:51:58] FIN OK
+[2026-09-22 11:08:25] ===============================================
+[2026-09-22 11:08:25] DÉBUT SAUVEGARDE : gestion_commerciale
+[2026-09-22 11:08:25] ===============================================
+[2026-09-22 11:08:25] → 1/5 Lancement de pg_dump...
+[2026-09-22 11:24:43] ===============================================
+[2026-09-22 11:24:43] DÉBUT SAUVEGARDE : gestion_commerciale
+[2026-09-22 11:24:43] ===============================================
+[2026-09-22 11:24:43] → 1/5 Lancement de pg_dump...
+[2026-09-22 11:24:44]    ✅ Dump créé : 892K
+[2026-09-22 11:24:44] → 2/5 Calcul du checksum...
+[2026-09-22 11:24:44]    Checksum : e00e3935d0176fb344773a6c5150aa5582381530aa50c696a1cb4a49450d826c
+[2026-09-22 11:24:44] → 3/5 Chiffrement GPG...
+[2026-09-22 11:28:28] ===============================================
+[2026-09-22 11:28:28] DÉBUT SAUVEGARDE : gestion_commerciale
+[2026-09-22 11:28:28] ===============================================
+[2026-09-22 11:28:28] → 1/5 Lancement de pg_dump...
+[2026-09-22 11:28:29]    ✅ Dump créé : 892K
+[2026-09-22 11:28:29] → 2/5 Calcul du checksum...
+[2026-09-22 11:28:29]    Checksum : ed7d33c4ac591b5b9a2c5022118cb0fc1453e53ad2da930087ac0181dc22aea7
+[2026-09-22 11:28:29] → 3/5 Chiffrement GPG...
+[2026-09-22 11:28:29]    ✅ Chiffré : gestion_commerciale_20260922_112828.dump.gpg
+[2026-09-22 11:28:29]    Taille chiffrée : 692K
+[2026-09-22 11:28:29] → 4/5 Vérification de l'intégrité...
+[2026-09-22 11:28:29]    ✅ Fichier GPG valide
+[2026-09-22 11:28:29] → 5/5 Envoi vers MinIO...
+[2026-09-22 11:28:29]    ✅ Copie envoyée vers s3://backups-postgres/
+[2026-09-22 11:28:29]    Taille distante : 689KiB
+[2026-09-22 11:28:29] ✅ SAUVEGARDE RÉUSSIE
+[2026-09-22 11:28:29]    Fichier : gestion_commerciale_20260922_112828.dump.gpg
+[2026-09-22 11:28:29]    Durée   : 1 secondes
+[2026-09-22 11:28:29] FIN OK
+[2026-09-23 21:44:10] ===============================================
+[2026-09-23 21:44:10] DÉBUT SAUVEGARDE : gestion_commerciale
+[2026-09-23 21:44:10] ===============================================
+[2026-09-23 21:44:10] → 1/5 Lancement de pg_dump...
+[2026-09-23 21:44:11]    ✅ Dump créé : 892K
+[2026-09-23 21:44:11] → 2/5 Calcul du checksum...
+[2026-09-23 21:44:11]    Checksum : 1ce0d485c7ef701e46cfa16c73fba12bfb67a7567b122f4a4daed85fac2333b8
+[2026-09-23 21:44:11] → 3/5 Chiffrement GPG...
+[2026-09-23 21:44:11]    ✅ Chiffré : gestion_commerciale_20260923_214410.dump.gpg
+[2026-09-23 21:44:11]    Taille chiffrée : 692K
+[2026-09-23 21:44:11] → 4/5 Vérification de l'intégrité...
+[2026-09-23 21:44:11]    ✅ Fichier GPG valide
+[2026-09-23 21:44:11] → 5/5 Envoi vers MinIO...
+[2026-09-23 21:44:12]    ✅ Copie envoyée vers s3://backups-postgres/
+[2026-09-23 21:44:12]    Taille distante : 690KiB
+[2026-09-23 21:44:12] ✅ SAUVEGARDE RÉUSSIE
+[2026-09-23 21:44:12]    Fichier : gestion_commerciale_20260923_214410.dump.gpg
+[2026-09-23 21:44:12]    Durée   : 2 secondes
+[2026-09-23 21:44:12] FIN OK
+[2026-09-23 21:54:42] ===============================================
+[2026-09-23 21:54:42] DÉBUT SAUVEGARDE : gestion_commerciale
+[2026-09-23 21:54:42] ===============================================
+[2026-09-23 21:54:42] → 1/5 Lancement de pg_dump...
+[2026-09-23 21:54:43]    ✅ Dump créé : 892K
+[2026-09-23 21:54:43] → 2/5 Calcul du checksum...
+[2026-09-23 21:54:43]    Checksum : e5c3db8578d64041469077e69dc62d479a3633c74702c3a99861032496fa15f7
+[2026-09-23 21:54:43] → 3/5 Chiffrement GPG...
+[2026-09-23 21:54:43]    ✅ Chiffré : gestion_commerciale_20260923_215442.dump.gpg
+[2026-09-23 21:54:43]    Taille chiffrée : 692K
+[2026-09-23 21:54:43] → 4/5 Vérification de l'intégrité...
+[2026-09-23 21:54:44]    ✅ Fichier GPG valide
+[2026-09-23 21:54:44] → 5/5 Envoi vers MinIO...
+[2026-09-23 21:54:44]    ✅ Copie envoyée vers s3://backups-postgres/
+[2026-09-23 21:54:44]    Taille distante : 690KiB
+[2026-09-23 21:54:44] ✅ SAUVEGARDE RÉUSSIE
+[2026-09-23 21:54:44]    Fichier : gestion_commerciale_20260923_215442.dump.gpg
+[2026-09-23 21:54:44]    Durée   : 2 secondes
+[2026-09-23 21:54:44] FIN OK
+[2026-09-23 21:55:07] ===============================================
+[2026-09-23 21:55:07] DÉBUT SAUVEGARDE : gestion_commerciale
+[2026-09-23 21:55:07] ===============================================
+[2026-09-23 21:55:07] → 1/5 Lancement de pg_dump...
+[2026-09-23 21:55:08]    ✅ Dump créé : 892K
+[2026-09-23 21:55:08] → 2/5 Calcul du checksum...
+[2026-09-23 21:55:08]    Checksum : 72c1753693ba00a6d907c1575fac734d51c64f5d5def4bc8b8dfbfa453cdabba
+[2026-09-23 21:55:08] → 3/5 Chiffrement GPG...
+[2026-09-23 21:55:08]    ✅ Chiffré : gestion_commerciale_20260923_215507.dump.gpg
+[2026-09-23 21:55:08]    Taille chiffrée : 692K
+[2026-09-23 21:55:08] → 4/5 Vérification de l'intégrité...
+[2026-09-23 21:55:08]    ✅ Fichier GPG valide
+[2026-09-23 21:55:08] → 5/5 Envoi vers MinIO...
+[2026-09-23 21:55:08]    ✅ Copie envoyée vers s3://backups-postgres/
+[2026-09-23 21:55:08]    Taille distante : 690KiB
+[2026-09-23 21:55:08] ✅ SAUVEGARDE RÉUSSIE
+[2026-09-23 21:55:08]    Fichier : gestion_commerciale_20260923_215507.dump.gpg
+[2026-09-23 21:55:08]    Durée   : 1 secondes
+[2026-09-23 21:55:08] FIN OK
+[2026-09-23 21:55:28] ===============================================
+[2026-09-23 21:55:28] DÉBUT SAUVEGARDE : gestion_commerciale
+[2026-09-23 21:55:28] ===============================================
+[2026-09-23 21:55:28] → 1/5 Lancement de pg_dump...
+[2026-09-23 21:55:29]    ✅ Dump créé : 892K
+[2026-09-23 21:55:29] → 2/5 Calcul du checksum...
+[2026-09-23 21:55:29]    Checksum : 26257cc20fd16ed30cc39df50ee1b85f1cfafcd7ae13aae61217725fe689d429
+[2026-09-23 21:55:29] → 3/5 Chiffrement GPG...
+[2026-09-23 21:55:29]    ✅ Chiffré : gestion_commerciale_20260923_215528.dump.gpg
+[2026-09-23 21:55:29]    Taille chiffrée : 692K
+[2026-09-23 21:55:29] → 4/5 Vérification de l'intégrité...
+[2026-09-23 21:55:29]    ✅ Fichier GPG valide
+[2026-09-23 21:55:29] → 5/5 Envoi vers MinIO...
+[2026-09-23 21:55:30]    ✅ Copie envoyée vers s3://backups-postgres/
+[2026-09-23 21:55:30]    Taille distante : 690KiB
+[2026-09-23 21:55:30] ✅ SAUVEGARDE RÉUSSIE
+[2026-09-23 21:55:30]    Fichier : gestion_commerciale_20260923_215528.dump.gpg
+[2026-09-23 21:55:30]    Durée   : 2 secondes
+[2026-09-23 21:55:30] FIN OK

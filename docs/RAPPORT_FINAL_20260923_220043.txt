@@ -1,0 +1,86 @@
+╔══════════════════════════════════════════════════════════════╗
+║           RAPPORT DE SYNTHÈSE - SYSTÈME DE SAUVEGARDE        ║
+║                    Généré le 2026-09-23 22:00:43                  ║
+╚══════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────┐
+│ 1. INFRASTRUCTURE                                           │
+└─────────────────────────────────────────────────────────────┘
+
+  Conteneurs Docker actifs :
+
+┌─────────────────────────────────────────────────────────────┐
+│ 2. BASE DE DONNÉES DE PRODUCTION                            │
+└─────────────────────────────────────────────────────────────┘
+
+  Taille        : 21 MB
+
+  Tables et volumes :
+    • clients              : 5000 lignes
+    • produits             : 1000 lignes
+    • stocks               : 1000 lignes
+    • commandes            : 20000 lignes
+    • lignes_commande      : 60000 lignes
+    • paiements            : 17448 lignes
+
+┌─────────────────────────────────────────────────────────────┐
+│ 3. SAUVEGARDES DISPONIBLES                                  │
+└─────────────────────────────────────────────────────────────┘
+
+  Local (/backups) :
+    • /backups/gestion_commerciale_20260923_215442.dump.gpg (691K)
+    • /backups/gestion_commerciale_20260923_215507.dump.gpg (691K)
+    • /backups/gestion_commerciale_20260923_215528.dump.gpg (691K)
+
+  Distant (MinIO S3) :
+    • gestion_commerciale_20260923_215442.dump.sha256 (UTC])
+    • gestion_commerciale_20260923_215507.dump.gpg (UTC])
+    • gestion_commerciale_20260923_215507.dump.sha256 (UTC])
+    • gestion_commerciale_20260923_215528.dump.gpg (UTC])
+    • gestion_commerciale_20260923_215528.dump.sha256 (UTC])
+
+┌─────────────────────────────────────────────────────────────┐
+│ 4. POLITIQUE DE RÉTENTION                                   │
+└─────────────────────────────────────────────────────────────┘
+
+  • Sauvegardes quotidiennes : 7 jours
+  • Nettoyage automatique    : tous les jours à 4h00
+
+┌─────────────────────────────────────────────────────────────┐
+│ 5. TÂCHES PLANIFIÉES (CRON)                                 │
+└─────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────┐
+│ 6. CHIFFREMENT                                              │
+└─────────────────────────────────────────────────────────────┘
+
+  Algorithme : GPG RSA 3072 bits
+  Clé        : backup@entreprise.local
+  Empreinte  : 255C1986099DF538253331E255FD6BB86E300B8B
+
+┌─────────────────────────────────────────────────────────────┐
+│ 7. MÉTRIQUES DE PERFORMANCE (mesurées)                      │
+└─────────────────────────────────────────────────────────────┘
+
+  Test de restauration :
+    • RTO mesuré           : 3 secondes
+    • Tables vérifiées     : 6/6
+    • Cohérence prod/test  : 100%
+
+  Simulation de sinistre :
+    • Scénario A (DROP)      : RTO = 2s, RPO = 0
+    • Scénario B (corruption): RTO = 4s, RPO = 0
+    • Scénario C (perte)     : RTO = 4s, RPO = 0
+
+┌─────────────────────────────────────────────────────────────┐
+│ 8. CONFORMITÉ RÈGLE 3-2-1                                   │
+└─────────────────────────────────────────────────────────────┘
+
+  ✅ 3 copies     : Local + Hôte + MinIO S3
+  ✅ 2 supports   : Disque local + Stockage objet
+  ✅ 1 hors-site  : MinIO (peut être externalisé)
+
+╔══════════════════════════════════════════════════════════════╗
+║                    FIN DU RAPPORT                            ║
+╚══════════════════════════════════════════════════════════════╝
