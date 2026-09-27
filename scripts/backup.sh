@@ -1,7 +1,7 @@
 #!/bin/bash
 # ============================================
 # SCRIPT DE SAUVEGARDE POSTGRESQL COMPLET
-# Dump + Checksum + Chiffrement GPG + Envoi S3 (MinIO)
+# Dump + Chiffrement GPG + Checksum + Envoi S3
 # ============================================
 
 set -euo pipefail
@@ -17,7 +17,6 @@ BACKUP_DIR="/backups"
 LOG_FILE="/logs/backup.log"
 GPG_RECIPIENT="backup@entreprise.local"
 
-# MinIO (stockage objet S3)
 MINIO_ALIAS="minio"
 MINIO_BUCKET="backups-postgres"
 
@@ -29,9 +28,9 @@ log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
 }
 
-# ---- DÉBUT ----
+# ---- DEBUT ----
 log "==============================================="
-log "DÉBUT SAUVEGARDE : $DB_NAME"
+log "DEBUT SAUVEGARDE : $DB_NAME"
 log "==============================================="
 
 mkdir -p "$BACKUP_DIR"
@@ -39,54 +38,56 @@ export PGPASSWORD="$DB_PASSWORD"
 
 # ---- 1. DUMP ----
 START_TIME=$(date +%s)
-log "→ 1/5 Lancement de pg_dump..."
+log "-> 1/5 Lancement de pg_dump..."
 
 pg_dump -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" \
     -Fc -f "$FULLPATH" "$DB_NAME"
 
 SIZE_RAW=$(du -h "$FULLPATH" | cut -f1)
-log "   ✅ Dump créé : $SIZE_RAW"
+log "   OK - Dump cree : $SIZE_RAW"
 
-# ---- 2. CHECKSUM ----
-log "→ 2/5 Calcul du checksum..."
-sha256sum "$FULLPATH" > "${FULLPATH}.sha256"
-log "   Checksum : $(cut -d' ' -f1 ${FULLPATH}.sha256)"
-
-# ---- 3. CHIFFREMENT GPG ----
-log "→ 3/5 Chiffrement GPG..."
+# ---- 2. CHIFFREMENT GPG ----
+log "-> 2/5 Chiffrement GPG..."
 gpg --batch --yes --encrypt --recipient "$GPG_RECIPIENT" "$FULLPATH"
-log "   ✅ Chiffré : ${FILENAME}.gpg"
-rm -f "$FULLPATH"   # On ne garde que le .gpg chiffré
+log "   OK - Chiffre : ${FILENAME}.gpg"
+rm -f "$FULLPATH"
 SIZE_GPG=$(du -h "${FULLPATH}.gpg" | cut -f1)
-log "   Taille chiffrée : $SIZE_GPG"
+log "   Taille chiffree : $SIZE_GPG"
 
-# ---- 4. VÉRIFICATION INTÉGRITÉ ----
-log "→ 4/5 Vérification de l'intégrité..."
+# ---- 3. CHECKSUM (du fichier chiffre .gpg) ----
+log "-> 3/5 Calcul du checksum du fichier chiffre..."
+sha256sum "${FULLPATH}.gpg" > "${FULLPATH}.gpg.sha256"
+log "   Checksum : $(cut -d' ' -f1 ${FULLPATH}.gpg.sha256)"
+
+# ---- 4. VERIFICATION INTEGRITE ----
+log "-> 4/5 Verification de l'integrite..."
 if gpg --batch --list-packets "${FULLPATH}.gpg" > /dev/null 2>&1; then
-    log "   ✅ Fichier GPG valide"
+    log "   OK - Fichier GPG valide"
 else
-    log "   ❌ Fichier GPG corrompu"
+    log "   ERREUR - Fichier GPG corrompu"
+    /scripts/notify.sh FAILURE "Backup echoue : fichier GPG corrompu"
     exit 4
 fi
 
-# ---- 5. ENVOI VERS MINIO (S3) ----
-log "→ 5/5 Envoi vers MinIO..."
+# ---- 5. ENVOI VERS MINIO ----
+log "-> 5/5 Envoi vers MinIO..."
 if mc cp "${FULLPATH}.gpg" "${MINIO_ALIAS}/${MINIO_BUCKET}/" >/dev/null 2>&1 && \
-   mc cp "${FULLPATH}.sha256" "${MINIO_ALIAS}/${MINIO_BUCKET}/" >/dev/null 2>&1 ; then
-
-    # Vérifier la taille côté distant
+   mc cp "${FULLPATH}.gpg.sha256" "${MINIO_ALIAS}/${MINIO_BUCKET}/" >/dev/null 2>&1 ; then
+    log "   OK - Copie envoyee vers s3://${MINIO_BUCKET}/"
     REMOTE_SIZE=$(mc stat "${MINIO_ALIAS}/${MINIO_BUCKET}/${FILENAME}.gpg" 2>/dev/null | grep -i "size" | awk -F: '{print $2}' | tr -d ' ')
-    log "   ✅ Copie envoyée vers s3://${MINIO_BUCKET}/"
     log "   Taille distante : ${REMOTE_SIZE}"
 else
-    log "   ⚠️  ÉCHEC envoi MinIO (le backup local reste valide)"
-    # On ne sort pas en erreur : le backup local est là
+    log "   AVERTISSEMENT - Echec envoi MinIO (backup local conserve)"
+    /scripts/notify.sh WARNING "Backup local OK mais envoi MinIO echoue"
 fi
 
 END_TIME=$(date +%s)
 DURATION=$((END_TIME - START_TIME))
 
-log "✅ SAUVEGARDE RÉUSSIE"
+log "OK - SAUVEGARDE REUSSIE"
 log "   Fichier : ${FILENAME}.gpg"
-log "   Durée   : ${DURATION} secondes"
+log "   Duree   : ${DURATION} secondes"
 log "FIN OK"
+
+# Notification Discord
+/scripts/notify.sh SUCCESS "Sauvegarde reussie - Fichier: ${FILENAME}.gpg - Taille: ${SIZE_GPG} - Duree: ${DURATION}s"

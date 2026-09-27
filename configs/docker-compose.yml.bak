@@ -21,8 +21,6 @@ services:
       context: .
       dockerfile: Dockerfile.backup
     container_name: backup-server
-    environment:
-      DISCORD_WEBHOOK: "https://discord.com/api/webhooks/1553864423049797656/v4VojP9LX5DapeMqBe-8gzC2_jCjpPzcxvkQpMFMJ4IRrT0Y0zkDBdwHLZV5Fm-YmrR-"
     restart: unless-stopped
     volumes:
       - ../scripts:/scripts
