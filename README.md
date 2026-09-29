@@ -1,6 +1,6 @@
 # Systeme de Sauvegarde et Restauration Automatise
 
-Projet de these : conception d'un systeme automatise de sauvegarde, de restauration et de verification d'integrite d'une base de donnees.
+Projet de these : conception d'un systeme automatise de sauvegarde, de restauration et de verification d'integrite d'une base de donnees PostgreSQL.
 
 ## Problematique
 
@@ -10,36 +10,82 @@ En cas de panne, d'erreur humaine ou d'attaque :
 - Un ransomware chiffre les donnees
 - Un administrateur execute une mauvaise commande
 
-Question : comment garantir la disponibilite, l'integrite et la recuperation des donnees ?
+**Question** : comment garantir la disponibilite, l'integrite et la recuperation des donnees ?
 
 ## Architecture
 
 Trois conteneurs Docker :
-- postgres-prod : base de production PostgreSQL 16
-- backup-server : serveur de sauvegarde avec pg_dump, GPG, mc, cron
-- minio : stockage objet S3 local
+- **postgres-prod** : PostgreSQL 16 avec WAL archiving active
+- **backup-server** : serveur de sauvegarde (pg_dump, GPG, mc, cron)
+- **minio** : stockage objet S3 local
 
-## 3 piliers
+## 4 piliers
 
-1. Automatisation : sauvegarde quotidienne a 2h via cron
-2. Chiffrement : GPG RSA 3072 bits
-3. Externalisation : copie S3 (regle 3-2-1)
+1. **Automatisation** : sauvegarde quotidienne a 2h via cron
+2. **Chiffrement** : GPG RSA 3072 bits
+3. **Externalisation** : copie S3 (regle 3-2-1)
+4. **WAL archiving** : RPO proche de 0
 
-## Installation
+## Pipeline de sauvegarde (5 etapes)
 
-    cd ~/these-backup
-    cd configs && docker compose -f docker-compose.yml build backup-server && cd ..
-    docker compose -f configs/docker-compose.yml up -d
+1. pg_dump : dump compresse
+2. Chiffrement GPG : fichier .dump.gpg
+3. Checksum SHA-256 du fichier chiffre
+4. Verification d'integrite
+5. Envoi vers MinIO S3
+
+## Taches planifiees (cron)
+
+| Heure | Tache |
+|-------|-------|
+| 2h00 | backup.sh |
+| 4h00 | cleanup.sh (GFS) |
+| 5h00 dimanche | restore_test.sh |
+| 6h00 | verify_backups.sh |
+| chaque minute | archive_wal.sh |
+
+## Politique de retention GFS
+
+- 7 backups quotidiens
+- 4 backups hebdomadaires
+- 12 backups mensuels
+- Safety minimum : 3 backups
+
+## Resultats mesures
+
+### RTO (test de restauration, 5 runs)
+- Minimum : 3755 ms
+- Maximum : 5404 ms
+- Moyen : ~4683 ms
+
+### Simulations de sinistre
+| Scenario | RPO | RTO |
+|----------|-----|-----|
+| DROP TABLE | 0 | 2s |
+| Corruption | 0 | 4s |
+| Perte totale | 0 | 4s |
+
+### WAL archiving
+- Frequence : chaque minute
+- RPO effectif : ~60 secondes
+
+### Conformite regle 3-2-1
+- 3 copies : Local + Hote + MinIO S3
+- 2 supports : Disque local + Stockage objet
+- 1 hors-site : MinIO externalisable
 
 ## Utilisation
 
 Sauvegarde manuelle :
     docker exec -it backup-server bash /scripts/backup.sh
 
-Test de restauration :
-    docker exec -it backup-server bash /scripts/restore_test.sh
+Verification integrite :
+    docker exec -it backup-server bash /scripts/verify_backups.sh
 
-Simulation de sinistre (A, B ou C) :
+PITR (restauration a un instant T) :
+    docker exec -it backup-server bash /scripts/pitr_restore.sh "2026-09-29 12:00:00"
+
+Simulation de sinistre :
     docker exec -it backup-server bash /scripts/simulate_disaster.sh A
 
 Rapport complet :
@@ -47,24 +93,7 @@ Rapport complet :
 
 Interface MinIO : http://localhost:9001 (minioadmin / minioadmin123)
 
-## Resultats mesures
-
-Test de restauration :
-- RTO mesure : 3 secondes
-- Tables verifiees : 6/6
-- Coherence prod/test : 100%
-
-Simulations de sinistre :
-- Scenario A (DROP TABLE) : RTO = 2s, RPO = 0
-- Scenario B (corruption) : RTO = 4s, RPO = 0
-- Scenario C (perte totale) : RTO = 4s, RPO = 0
-
-Conformite regle 3-2-1 :
-- 3 copies : Locale + Hote + MinIO
-- 2 supports : Disque + Objet S3
-- 1 hors-site : MinIO externalisable
-
-## Structure du projet
+## Structure
 
     these-backup/
     ├── README.md
@@ -75,21 +104,27 @@ Conformite regle 3-2-1 :
     ├── scripts/
     │   ├── backup.sh
     │   ├── restore_test.sh
+    │   ├── verify_backups.sh
+    │   ├── archive_wal.sh
+    │   ├── pitr_restore.sh
     │   ├── cleanup.sh
     │   ├── simulate_disaster.sh
     │   ├── generate_report.sh
-    │   └── setup_cron.sh
+    │   ├── notify.sh
+    │   ├── measure_rto.sh
+    │   ├── setup_cron.sh
+    │   └── start_labo.sh
     ├── sql/
     │   ├── 01_schema.sql
     │   └── 02_data.sql
+    ├── docs/
+    │   ├── PITR.md
+    │   └── ...
     ├── logs/
-    ├── backups/
-    └── docs/
+    └── backups/
 
 ## Auteur
 
 Yvette Refanarisoa - 2026
 
 Citation cle : "Une sauvegarde non testee n'est pas une sauvegarde."
-# Test
-
