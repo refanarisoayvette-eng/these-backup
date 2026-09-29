@@ -3,3 +3,8 @@ logs/*
 *.dump
 *.gpg
 .env
+
+# Fichiers de backup locaux
+*.bak
+*.before_wal
+*.before_*
