@@ -4,18 +4,6 @@ services:
     image: postgres:16
     container_name: postgres-prod
     restart: unless-stopped
-    command:
-      - "postgres"
-      - "-c"
-      - "wal_level=replica"
-      - "-c"
-      - "archive_mode=on"
-      - "-c"
-      - "archive_command=cp %p /wal_archive/%f"
-      - "-c"
-      - "archive_timeout=60"
-      - "-c"
-      - "max_wal_senders=3"
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
@@ -25,7 +13,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ../backups:/backups
-      - wal_archive:/wal_archive
     networks:
       - backup_net
 
@@ -34,15 +21,14 @@ services:
       context: .
       dockerfile: Dockerfile.backup
     container_name: backup-server
-    restart: unless-stopped
     environment:
       DISCORD_WEBHOOK: "https://discord.com/api/webhooks/1553864423049797656/v4VojP9LX5DapeMqBe-8gzC2_jCjpPzcxvkQpMFMJ4IRrT0Y0zkDBdwHLZV5Fm-YmrR-"
+    restart: unless-stopped
     volumes:
       - ../scripts:/scripts
       - ../backups:/backups
       - ../logs:/logs
       - gpg_keys:/root/.gnupg
-      - wal_archive:/wal_archive
     networks:
       - backup_net
     depends_on:
@@ -68,7 +54,6 @@ volumes:
   postgres_data:
   minio_data:
   gpg_keys:
-  wal_archive:
 
 networks:
   backup_net:
